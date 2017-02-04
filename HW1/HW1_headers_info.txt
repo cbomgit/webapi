@@ -1,0 +1,43 @@
+Alt-Svc →quic=":443"; ma=2592000; v="35,34"
+ - used to advertise the availability of alternative services to teh client.
+
+
+Cache-Control →private, max-age=0, must-revalidate, no-transform
+ - private indicates that the cache can only be stored for a single user
+ - max-age indicates the maximum age of the stored data
+ - must-revalidate means that the client should always check for new cache
+ - no-transform indicates that the resource should not be modified in any way.
+
+
+Content-Length →4089
+ - length of the response in decimal number of octets.
+
+Content-Type →application/json; charset=UTF-8
+ - indicates that the response is in JSON format using the UTF-8 character set
+
+Date →Sat, 04 Feb 2017 21:05:39 GMT
+ - timestamp of the response
+
+ETag →"vFp1TYDMppbWxVi0Wgw_upD83cI/a33QUS3Iqsqr6RfYKPRETyUBvOA"
+ - used for concurrency control - indicates the specific version of this resource
+
+Expires →Sat, 04 Feb 2017 21:05:39 GMT
+ - date and time after which the resource is considered stale
+
+Server →GSE
+ - gives information about the web server and OS that returned the response
+
+Vary →Origin
+ - used to tell the HTTP cache which header to use to identify an object, in this case the Origin header
+Vary →X-Origin
+ - see above
+X-Content-Type-Options →nosniff
+ - used to prevent MIME based attacks. Prevents the MIME type from being override - if it is text/html, then it will be rendered as such
+
+X-Frame-Options →SAMEORIGIN
+ - only display this page in a frame on the same origin as the page itself. Used to prevent clickjacking attacks.
+ 
+X-XSS-Protection →1; mode=block 
+
+ - used to prevent cross-site scripting attacks. 1 enables XSS filtering, in which the browser 
+ sanitizes the response if an XSS attack is detected. 1;mode=block prevents the page from rendering at all.

@@ -1,0 +1,79 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Web API",
+		"_postman_id": "8b278930-01a1-0f27-ef2c-d7fd7ed1a588",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "HW1",
+			"description": "",
+			"item": [
+				{
+					"name": "Request books whose title contain \"Turing\"",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var responseJSON = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"id\", responseJSON.items[0].id);",
+									"",
+									"var hasTitle = true;",
+									"",
+									"for(var i = 0; i < responseJSON.items.length; i++) {",
+									"    if(!responseJSON.items[i].volumeInfo.title.has(\"Turing\")) {",
+									"        hasTitle = false;",
+									"        break;",
+									"    }",
+									"}",
+									"",
+									"tests[\"Book titles contain Turing\"] = hasTitle;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://www.googleapis.com/books/v1/volumes?q={{book_title}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Request all books whose title contains the string \"Turing\". Tests include: \n\n* verify 200 OK response\n* verify that all books contain \"Turing\" in their title\n\n\nId of <response body>.items[0] is stored in environment variable."
+					},
+					"response": []
+				},
+				{
+					"name": "Request volumeInfo using ID from previous request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var responseJSON = JSON.parse(responseBody);",
+									"tests[\"Response has previous ID\"] = responseJSON.id === postman.getEnvironmentVariable(\"id\");",
+									"",
+									"",
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://www.googleapis.com/books/v1/volumes/{{id}}",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "Asserts that: \n\n* Response contains ID in request\n* Status code 200 OK returned."
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
